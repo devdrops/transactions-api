@@ -1,0 +1,7 @@
+.git
+docs
+build
+*.md
+test/
+*.out
+*.html

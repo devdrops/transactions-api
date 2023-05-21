@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+
+    # App
+
+    # Database
+    db:
+        # Purpose: application's database.
+        image: postgres:9.6
+        volumes:
+            - ./env/db/data:/var/lib/postgresql
+        ports:
+            - "5432:5432"
+        env_file: ./env/.env
+    # Database GUI
+    db_gui:
+        # Purpose: GUI database for database.
+        # Available at http://0.0.0.0:5050
+        image: fenglc/pgadmin4:1.1
+        ports:
+            - "5050:5050"
+        links:
+            - db
+        env_file: ./env/.env
+
+volumes:
+
+    data:
+        # Purpose: database volume
+        driver: 'local'

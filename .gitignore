@@ -1,0 +1,9 @@
+# Go's coverage files
+*.out
+*.html
+
+# Environment variables
+.env
+
+# Database
+env/db/data
