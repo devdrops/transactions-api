@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1
+
+##########
+# Project's image, for local development only.
+FROM golang:1.20-alpine
+
+RUN apk add --no-cache git
+
+WORKDIR /app
+
+COPY . /app
+
+EXPOSE 8080
+
+ARG BUILD_DATE=now
+ARG COMMIT_HASH=development
+
+CMD ["go", "run", "/app/cmd/main.go"]

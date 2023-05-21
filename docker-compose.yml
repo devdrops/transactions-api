@@ -1,9 +1,20 @@
 version: "3.7"
 
 services:
-
     # App
-
+    app:
+        build:
+            context: ./env
+            dockerfile: Dockerfile.dev
+        volumes:
+            - .:/app
+        ports:
+            - 8080:8080
+        links:
+            - db
+        working_dir: /app
+        env_file: ./env/.env
+        command: go run cmd/main.go
     # Database
     db:
         # Purpose: application's database.
@@ -11,7 +22,7 @@ services:
         volumes:
             - ./env/db/data:/var/lib/postgresql
         ports:
-            - "5432:5432"
+            - 5432:5432
         env_file: ./env/.env
     # Database GUI
     db_gui:
@@ -19,13 +30,12 @@ services:
         # Available at http://0.0.0.0:5050
         image: fenglc/pgadmin4:1.1
         ports:
-            - "5050:5050"
+            - 5050:5050
         links:
             - db
         env_file: ./env/.env
 
 volumes:
-
     data:
         # Purpose: database volume
         driver: 'local'
