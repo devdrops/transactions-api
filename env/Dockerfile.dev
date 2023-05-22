@@ -4,15 +4,23 @@
 # Project's image, for local development only.
 FROM golang:1.20-alpine
 
-RUN apk add --no-cache git
+ARG BUILD_DATE=now
+ARG COMMIT_HASH=development
+
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache git && \
+    rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
 COPY . /app
 
+ENV GOPROXY https://proxy.golang.org
+
+RUN go install github.com/cespare/reflex@latest
+COPY reflex.conf /
+
 EXPOSE 8080
 
-ARG BUILD_DATE=now
-ARG COMMIT_HASH=development
-
-CMD ["go", "run", "/app/cmd/main.go"]
+ENTRYPOINT ["reflex", "-c", "/reflex.conf"]

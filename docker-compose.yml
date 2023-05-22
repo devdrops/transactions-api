@@ -3,11 +3,14 @@ version: "3.7"
 services:
     # App
     app:
+        # Purpose: application's local environment
+        container_name: app
         build:
             context: ./env
             dockerfile: Dockerfile.dev
         volumes:
             - .:/app
+            - ./env/go:/go/pkg/mod/cache # Local cache for dependencies
         ports:
             - 8080:8080
         links:
@@ -18,6 +21,7 @@ services:
     # Database
     db:
         # Purpose: application's database.
+        container_name: db
         image: postgres:9.6
         volumes:
             - ./env/db/data:/var/lib/postgresql
@@ -28,6 +32,7 @@ services:
     db_gui:
         # Purpose: GUI database for database.
         # Available at http://0.0.0.0:5050
+        container_name: db_gui
         image: fenglc/pgadmin4:1.1
         ports:
             - 5050:5050
