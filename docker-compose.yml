@@ -34,13 +34,11 @@ services:
         # Available at http://0.0.0.0:5050
         container_name: db_gui
         image: fenglc/pgadmin4:1.1
+        volumes:
+            - ./env/db/pgadmin4:/root/.pgadmin
         ports:
             - 5050:5050
         links:
             - db
         env_file: ./env/.env
 
-volumes:
-    data:
-        # Purpose: database volume
-        driver: 'local'
