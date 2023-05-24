@@ -18,11 +18,13 @@ run-prd:
 	@echo "===> Starting deployment environment!\n"
 	@docker run -ti --rm -p 8080:8080 da-api:$(COMMIT_HASH)
 
-# run: build and start the deployment environment
+# run: starts application and it's dependencies in local environment
 run:
 	@echo "===> Starting local environment!\n"
-	docker-compose up -d
-
+	@docker-compose up -d db
+	@sleep 5 # Just some time to wait before the database is ready for the next command
+	@make create-db
+	@docker-compose up
 
 # run-dev: starts the project in the local environment
 run-dev: create-env-file create-db
