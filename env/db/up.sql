@@ -28,6 +28,11 @@ CREATE TABLE IF NOT EXISTS operations (
     description VARCHAR(50) NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+INSERT INTO operations (id, description) VALUES
+    (1, 'COMPRA A VISTA'),
+    (2, 'COMPRA PARCELADA'),
+    (3, 'SAQUE'),
+    (4, 'PAGAMENTO');
 
 /* Table transactions */
 CREATE TABLE IF NOT EXISTS transactions (
