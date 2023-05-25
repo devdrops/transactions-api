@@ -14,14 +14,14 @@ func NewRepository(dbC *database.Database) *TransactionsRepository {
 	}
 }
 
-func (a *TransactionsRepository) Create(doc string) error {
-	st, err := a.db.Conn.Prepare("INSERT INTO transactions(document) VALUES( $1)")
+func (t *TransactionsRepository) Create(aId int, oId int, a float32) error {
+	st, err := t.db.Conn.Prepare("INSERT INTO transactions(account_id, operation_id, amount) VALUES( $1, $2, $3)")
 	if err != nil {
 		return err
 	}
 	defer st.Close()
 
-	if _, err := st.Exec(doc); err != nil {
+	if _, err := st.Exec(aId, oId, a); err != nil {
 		return err
 	}
 

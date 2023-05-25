@@ -5,7 +5,7 @@ import (
 )
 
 type Account struct {
-	Id        int
-	Document  string
-	CreatedAt time.Time
+	Id        int       `json:"id"`
+	Document  string    `json:"document"`
+	CreatedAt time.Time `json:"-"`
 }

@@ -30,7 +30,8 @@ func (a *AccountsRepository) Create(doc string) error {
 
 func (a *AccountsRepository) Get(id int) (Account, error) {
 	var acc Account
-	err := a.db.Conn.QueryRow("SELECT id, document FROM accounts WHERE id = $1", id).Scan(&acc.Id, &acc.Document)
+	err := a.db.Conn.QueryRow("SELECT id, document FROM accounts WHERE id = $1", id).
+		Scan(&acc.Id, &acc.Document)
 	if err != nil {
 		return acc, err
 	}
