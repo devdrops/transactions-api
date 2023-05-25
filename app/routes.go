@@ -18,11 +18,31 @@ func NewRouter() *chi.Mux {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(30 * time.Second))
+	r.Use(commonHeadersMiddleware)
 
-	// Routes
-	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hola"))
+	// Routes: healthcheck
+	r.Get("/health", HealthCheck)
+	// Routes: Accounts
+	r.Route("/accounts", func(r chi.Router) {
+		r.Post("/", CreateAccount)
+		r.Get("/{accountId}", GetAccount)
 	})
+	// Routes: Transactions
+	r.Post("/transactions", CreateTransaction)
 
 	return r
+}
+
+// getURLParam is used to read a value from the URL, as a string.
+func getURLParam(r *http.Request, v string) string {
+	return chi.URLParam(r, v)
+}
+
+// commonHeadersMiddleware adds a group of headers for every HTTP response.
+func commonHeadersMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Server", "transactions-api")
+		next.ServeHTTP(w, r)
+	})
 }
