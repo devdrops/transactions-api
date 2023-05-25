@@ -131,4 +131,5 @@ Content-Length: 0
 
 ## What is Next?
 
-Please check the []() file to read extra notes I've made considering what could be the next steps for such project.
+Please check the [notes](/notes.md) file to read extra notes I've made considering what could be the next steps for such
+project.
